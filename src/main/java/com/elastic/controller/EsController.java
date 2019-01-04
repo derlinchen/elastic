@@ -11,6 +11,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.elastic.bean.Book;
 import com.elastic.bean.Stu;
 import com.elastic.service.EsService;
 
@@ -24,7 +25,7 @@ public class EsController {
 	// region Repository Methods
 	
 	@RequestMapping("/save")
-	public void add(){
+	public void save(){
 		String[] names = {"诸葛亮","司马懿","典韦","马超","关羽","孙权","周瑜","司马懿"};
 		for(int i = 0; i < names.length; i++){
 			Stu st = new Stu(new Long((i+1)), "00" + (i + 1), names[i], new Date());
@@ -82,5 +83,31 @@ public class EsController {
 	}
 	
 	// endregion Repository Methods
+	
+	// region Template Methods
+	
+	@RequestMapping("/savebook")
+	public void savebook(){
+		String[] names = {"《西游记》","《红楼梦》","《三国演义》","《水浒传》","《西厢记》"};
+		String[] persons = {"猴子","宝玉","曹操","武松","张生"};
+		for(int i = 0; i < names.length; i++){
+			Book book = new Book(i+1, names[i], persons[i]);
+			esService.save(book);
+		}
+	}
+	
+	@RequestMapping("/updatebook")
+	public void updatebook(){
+		Book book = new Book(1,"《西游记》","猪小戒");
+		esService.saveObject("library", "book", book);
+	}
+	
+	@RequestMapping("/findbook")
+	public void findbook(){
+		List<Book> books = esService.findBySort(Book.class);
+		System.out.println(books.size());
+	}
+	
+	// endregion Template Methods
 	
 }
