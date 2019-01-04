@@ -2,18 +2,10 @@ package com.elastic.service.imp;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 
 import javax.annotation.Resource;
 
-import org.elasticsearch.action.search.SearchRequestBuilder;
-import org.elasticsearch.action.search.SearchResponse;
-import org.elasticsearch.client.Client;
-import org.elasticsearch.index.query.QueryBuilders;
-import org.elasticsearch.search.SearchHit;
-import org.elasticsearch.search.SearchHits;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.elasticsearch.core.ElasticsearchTemplate;
 import org.springframework.stereotype.Service;
 
 import com.elastic.bean.Stu;
@@ -23,51 +15,51 @@ import com.elastic.service.EsService;
 @Service("esService ")
 public class EsServiceImp implements EsService {
 	
-	@Autowired
-	private ElasticsearchTemplate elasticsearchTemplate;
+	// region Repository Methods
 	
 	@Resource
-	private StudentRepository studentRepository;
-
+	private StudentRepository repository;
+	
 	@Override
-	public <T> void createIndex(Class<T> clazz) {
-		elasticsearchTemplate.createIndex(clazz);
-	}
-
-	@Override
-	public  void createDocument(Stu stu) {
-		studentRepository.save(stu);
+	public  void save(Stu stu) {
+		repository.save(stu);
 	}
 	
 	@Override
-	public Stu getByStuId(String stuId) {
-		return studentRepository.getByStuId(stuId);
-	}
-
-	@Override
-	public void searchAll() {
-		Client client = elasticsearchTemplate.getClient();
-		SearchRequestBuilder srb = client.prepareSearch("stu").setTypes("doc");
-		SearchResponse sr = srb.setQuery(QueryBuilders.matchAllQuery()).execute().actionGet(); // 查询所有
-		SearchHits hits = sr.getHits();
-		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-		for (SearchHit hit : hits) {
-			Map<String, Object> source = hit.getSourceAsMap();
-			list.add(source);
-			System.out.println(hit.getSourceAsString());
+	public Stu findById(Long id) {
+		Stu rtn = null;
+		Optional<Stu> stu = repository.findById(id);
+		if(stu.isPresent()){
+			rtn = stu.get();
 		}
-		
+		return rtn;
 	}
-
+	
 	@Override
-	public List<Stu> queryAll() {
+	public List<Stu> getByStuId(String stuId) {
+		return repository.getByStuId(stuId);
+	}
+	
+	@Override
+	public List<Stu> getByStuName(String stuName) {
+		return repository.getListByStuName(stuName);
+	}
+	
+	@Override
+	public List<Stu> findAll() {
 		List<Stu> list = new ArrayList<Stu>();
-		Iterable<Stu> iterable = studentRepository.findAll();
+		Iterable<Stu> iterable = repository.findAll();
 		for (Stu item : iterable) {
 			list.add(item);
 		}
 		return list;
 	}
+
+	@Override
+	public void delete(Stu item) {
+		repository.delete(item);
+	}
 	
+	// endregion Repository Methods
 	
 }

@@ -16,7 +16,7 @@ public interface StudentRepository extends ElasticsearchRepository<Stu, Long> {
      * @param stuId
      * @return
      */
-	Stu getByStuId(String stuId);
+	List<Stu> getByStuId(String stuId);
 	
     /**
      * @param stuName

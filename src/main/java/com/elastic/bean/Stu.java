@@ -31,10 +31,6 @@ public class Stu implements Serializable {
 
 	@Field(index = true, store = true, type = FieldType.Date)
 	private Date createTime;
-	
-	@Field(index = true, analyzer = "ik_max_word", store = true, searchAnalyzer = "ik_max_word", type = FieldType.Text)
-	private String sex;
-	
 
 	public Stu() {
 	}

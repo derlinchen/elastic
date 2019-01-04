@@ -7,13 +7,20 @@ import com.elastic.bean.Stu;
 
 public interface EsService {
 	
-	public <T> void createIndex(Class<T> clazz);
+	// region Repository Methods
 	
-	public void createDocument(Stu stu);
+	public void save(Stu stu);
 	
-	public Stu getByStuId(String stuId);
+	public Stu findById(Long id);
+	
+	public List<Stu> getByStuId(String stuId);
+	
+	public List<Stu> getByStuName(String stuName);
 
-	public void searchAll();
+	public List<Stu> findAll();
+	
+	public void delete(Stu item);
+	
+	// endregion Repository Methods
 
-	public List<Stu> queryAll();
 }
