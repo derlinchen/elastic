@@ -2,6 +2,8 @@ package com.elastic.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
+
 import com.elastic.bean.Stu;
 
 
@@ -16,6 +18,8 @@ public interface EsService {
 	public List<Stu> getByStuId(String stuId);
 	
 	public List<Stu> getByStuName(String stuName);
+	
+	public List<Stu> getPageByStuName(String stuName, Pageable pageable);
 
 	public List<Stu> findAll();
 	

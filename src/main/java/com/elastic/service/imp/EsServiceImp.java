@@ -6,6 +6,8 @@ import java.util.Optional;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.elastic.bean.Stu;
@@ -43,6 +45,12 @@ public class EsServiceImp implements EsService {
 	@Override
 	public List<Stu> getByStuName(String stuName) {
 		return repository.getListByStuName(stuName);
+	}
+	
+	@Override
+	public List<Stu> getPageByStuName(String stuName, Pageable pageable) {
+		Page<Stu> stus =  repository.getPageByStuName(stuName, pageable);
+		return stus.getContent();
 	}
 	
 	@Override

@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -34,6 +36,9 @@ public class EsController {
 		List<Stu> sts = esService.getByStuId("006");
 		List<Stu> stus = esService.getByStuName("司马懿");
 		List<Stu> lists = esService.findAll();
+		// 分页参数
+		Pageable pageable = PageRequest.of(0, 2);
+		List<Stu> listpages = esService.getPageByStuName("司马懿", pageable);
 		
 		System.out.println("bystuid查询");
 		for (Stu item : sts) {
@@ -52,6 +57,11 @@ public class EsController {
 			System.out.println(item.getStuId() + "===" + item.getStuName());
 		}
 		System.out.println("----------------------");
+		
+		System.out.println("page 查询");
+		for (Stu item : listpages) {
+			System.out.println(item.getStuId() + "===" + item.getStuName());
+		}
 	}
 	
 	@RequestMapping("/update")
