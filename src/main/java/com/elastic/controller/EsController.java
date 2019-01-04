@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,7 +25,7 @@ public class EsController {
 	
 	@RequestMapping("/save")
 	public void add(){
-		String[] names = {"诸葛亮","司马懿","典韦","马超","关羽","孙权","周瑜"};
+		String[] names = {"诸葛亮","司马懿","典韦","马超","关羽","孙权","周瑜","司马懿"};
 		for(int i = 0; i < names.length; i++){
 			Stu st = new Stu(new Long((i+1)), "00" + (i + 1), names[i], new Date());
 			esService.save(st);
@@ -36,8 +37,9 @@ public class EsController {
 		List<Stu> sts = esService.getByStuId("006");
 		List<Stu> stus = esService.getByStuName("司马懿");
 		List<Stu> lists = esService.findAll();
-		// 分页参数
-		Pageable pageable = PageRequest.of(0, 2);
+		// 分页参数，排序
+		Sort sort = new Sort(Sort.Direction.ASC, "id");
+		Pageable pageable = PageRequest.of(0, 2, sort);
 		List<Stu> listpages = esService.getPageByStuName("司马懿", pageable);
 		
 		System.out.println("bystuid查询");
@@ -58,7 +60,7 @@ public class EsController {
 		}
 		System.out.println("----------------------");
 		
-		System.out.println("page 查询");
+		System.out.println("page 排序 查询");
 		for (Stu item : listpages) {
 			System.out.println(item.getStuId() + "===" + item.getStuName());
 		}
