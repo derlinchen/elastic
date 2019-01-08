@@ -10,7 +10,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 
 /**
  * 通过注解配置，与Repository联用时，可以直接将数据结构映射到ElasticSearch上
- * index：是否设置所有， store是否存储数据，type:数据类型，analyzer：分词粒度选择，searchAnalyzer：查询进行分词处理
+ * index：是否设置索引， store是否存储数据，type:数据类型，analyzer：分词粒度选择，searchAnalyzer：查询进行分词处理
  * ik_smart：进行最小粒度分词，ik_max_word进行最大粒度分词
  * @author Derlin
  *
