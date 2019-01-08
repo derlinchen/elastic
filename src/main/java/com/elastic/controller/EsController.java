@@ -92,14 +92,20 @@ public class EsController {
 		String[] persons = {"猴子","宝玉","曹操","武松","张生"};
 		for(int i = 0; i < names.length; i++){
 			Book book = new Book(i+1, names[i], persons[i]);
-			esService.save(book);
+			esService.save("library", "book", book);
 		}
+	}
+	
+	@RequestMapping("/deletebook")
+	public void deletebook(){
+		Book book = new Book(1,"《西游记》","猪小戒");
+		esService.delete("library", "book", String.valueOf(book.getId()));
 	}
 	
 	@RequestMapping("/updatebook")
 	public void updatebook(){
 		Book book = new Book(1,"《西游记》","猪小戒");
-		esService.saveObject("library", "book", book);
+		esService.update("library", "book", book);
 	}
 	
 	@RequestMapping("/findbook")

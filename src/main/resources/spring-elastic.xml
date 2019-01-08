@@ -16,7 +16,7 @@
 	<elasticsearch:repositories base-package="com.elastic.repository" />
 
     <!-- 配置Client -->
-    <elasticsearch:transport-client id="client" cluster-nodes="192.168.0.121:9300"/>
+    <elasticsearch:transport-client id="client" cluster-nodes="192.168.0.113:9300"/>
 
     <!-- 配置搜索模板  -->
     <bean id="elasticsearchTemplate"
