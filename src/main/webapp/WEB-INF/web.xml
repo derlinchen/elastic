@@ -16,6 +16,9 @@
     </context-param>    
     <listener>    
         <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>    
+    </listener>
+    <listener>    
+        <listener-class>com.elastic.listener.ElasticListener</listener-class>    
     </listener>    
         
     <!-- 编码过滤器 -->    
